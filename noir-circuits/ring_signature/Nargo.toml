@@ -1,0 +1,6 @@
+[package]
+name = "ring_signature"
+type = "bin"
+authors = [""]
+
+[dependencies]
