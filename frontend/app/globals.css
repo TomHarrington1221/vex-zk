@@ -1,3 +1,4 @@
+@import '@solana/wallet-adapter-react-ui/styles.css';
 @import "tailwindcss";
 
 :root {
@@ -24,3 +25,5 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+

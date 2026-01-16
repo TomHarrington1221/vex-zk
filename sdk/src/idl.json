@@ -1,0 +1,334 @@
+{
+  "address": "83wuRQ6DNzMqsgNDJo1zgvMzYX5pXz4dfcNSTtam5SVU",
+  "metadata": {
+    "name": "solana_programs",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "create_cloud",
+      "docs": [
+        "Create a new probability cloud (ring of addresses)"
+      ],
+      "discriminator": [
+        140,
+        150,
+        219,
+        249,
+        38,
+        95,
+        11,
+        173
+      ],
+      "accounts": [
+        {
+          "name": "cloud",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  108,
+                  111,
+                  117,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "arg",
+                "path": "cloud_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "ring_public_keys",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        },
+        {
+          "name": "cloud_id",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initialize",
+      "docs": [
+        "Initialize the probability cloud registry"
+      ],
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "registry",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "prove_holdings",
+      "docs": [
+        "Prove aggregate holdings across the ring"
+      ],
+      "discriminator": [
+        157,
+        171,
+        49,
+        64,
+        72,
+        147,
+        186,
+        18
+      ],
+      "accounts": [
+        {
+          "name": "cloud"
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "proof",
+          "type": "bytes"
+        },
+        {
+          "name": "threshold",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "transfer_with_ring_proof",
+      "docs": [
+        "Execute a transaction using ring signature proof"
+      ],
+      "discriminator": [
+        146,
+        113,
+        64,
+        116,
+        175,
+        114,
+        133,
+        154
+      ],
+      "accounts": [
+        {
+          "name": "cloud"
+        },
+        {
+          "name": "sender",
+          "writable": true
+        },
+        {
+          "name": "recipient",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proof",
+          "type": "bytes"
+        },
+        {
+          "name": "public_inputs",
+          "type": "bytes"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ProbabilityCloud",
+      "discriminator": [
+        119,
+        32,
+        77,
+        216,
+        246,
+        81,
+        13,
+        201
+      ]
+    },
+    {
+      "name": "Registry",
+      "discriminator": [
+        47,
+        174,
+        110,
+        246,
+        184,
+        182,
+        252,
+        218
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "HoldingsProofVerified",
+      "discriminator": [
+        149,
+        248,
+        77,
+        86,
+        237,
+        106,
+        219,
+        174
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "RingTooLarge",
+      "msg": "Ring size must be between 2 and 20"
+    },
+    {
+      "code": 6001,
+      "name": "RingTooSmall",
+      "msg": "Ring must have at least 2 addresses"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidProof",
+      "msg": "Invalid proof provided"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidPublicInputs",
+      "msg": "Invalid public inputs"
+    }
+  ],
+  "types": [
+    {
+      "name": "HoldingsProofVerified",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cloud_id",
+            "type": "u64"
+          },
+          {
+            "name": "threshold",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProbabilityCloud",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "cloud_id",
+            "type": "u64"
+          },
+          {
+            "name": "ring_size",
+            "type": "u8"
+          },
+          {
+            "name": "ring_public_keys",
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Registry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "cloud_count",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
+}
