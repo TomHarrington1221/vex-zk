@@ -1,0 +1,64 @@
+import { Connection, PublicKey, Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
+import { struct, u8, u64, vec } from '@solana/buffer-layout';
+import { publicKey, u64 as layoutU64 } from '@solana/buffer-layout-utils';
+
+const PROGRAM_ID = new PublicKey('83wuRQ6DNzMqsgNDJo1zgvMzYX5pXz4dfcNSTtam5SVU');
+
+// Instruction discriminator for create_cloud (from Anchor build)
+const CREATE_CLOUD_DISCRIMINATOR = Buffer.from([140, 150, 219, 249, 38, 95, 11, 173]);
+
+export async function createCloudOnChain(
+  connection: Connection,
+  payer: PublicKey,
+  ringPublicKeys: PublicKey[],
+  cloudId: number,
+  signTransaction: (tx: Transaction) => Promise<Transaction>
+): Promise<string> {
+  
+  // Derive cloud PDA
+  const cloudIdBuffer = Buffer.alloc(8);
+  cloudIdBuffer.writeBigUInt64LE(BigInt(cloudId));
+  
+  const [cloudPda] = PublicKey.findProgramAddressSync(
+    [
+      Buffer.from('cloud'),
+      payer.toBuffer(),
+      cloudIdBuffer,
+    ],
+    PROGRAM_ID
+  );
+
+  // Build instruction data
+  const ringBytes = ringPublicKeys.map(pk => pk.toBytes());
+  
+  // Create instruction data: discriminator + ring_public_keys + cloud_id
+  const data = Buffer.concat([
+    CREATE_CLOUD_DISCRIMINATOR,
+    // Encode Vec<[u8; 32]> - length prefix + data
+    Buffer.from(new Uint8Array([ringBytes.length, 0, 0, 0])), // u32 length
+    ...ringBytes.map(bytes => Buffer.from(bytes)),
+    cloudIdBuffer,
+  ]);
+
+  const instruction = new TransactionInstruction({
+    keys: [
+      { pubkey: cloudPda, isSigner: false, isWritable: true },
+      { pubkey: payer, isSigner: true, isWritable: true },
+      { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
+    ],
+    programId: PROGRAM_ID,
+    data,
+  });
+
+  const transaction = new Transaction().add(instruction);
+  transaction.feePayer = payer;
+  transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+
+  const signed = await signTransaction(transaction);
+  const signature = await connection.sendRawTransaction(signed.serialize());
+  
+  await connection.confirmTransaction(signature);
+  
+  return signature;
+}
+
