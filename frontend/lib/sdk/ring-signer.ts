@@ -1,35 +1,27 @@
 import { Keypair, PublicKey } from '@solana/web3.js';
-import * as crypto from 'crypto';
 
 export interface AddressCloud {
   addresses: PublicKey[];
-  keypairs: Keypair[];
-  cloudId: number;
   userIndex: number;
+  cloudId: number;
+  userKeypair: Keypair;
 }
 
 export interface RingSignatureInputs {
-  privateKey: string;
-  keyIndex: string;
-  ring: string[];
+  private_key: string;
+  key_index: number;
   message: string;
   signature: string;
+  ring: string[];
 }
 
-/**
- * Generate a probability cloud of N addresses
- */
-export function createAddressCloud(
-  size: number = 10,
-  cloudId: number = Date.now()
-): AddressCloud {
+export function createAddressCloud(size: number): AddressCloud {
   if (size < 2 || size > 20) {
     throw new Error('Cloud size must be between 2 and 20');
   }
 
-  const keypairs: Keypair[] = [];
   const addresses: PublicKey[] = [];
-  const userIndex = Math.floor(Math.random() * size);
+  const keypairs: Keypair[] = [];
 
   for (let i = 0; i < size; i++) {
     const keypair = Keypair.generate();
@@ -37,144 +29,113 @@ export function createAddressCloud(
     addresses.push(keypair.publicKey);
   }
 
-  return { addresses, keypairs, cloudId, userIndex };
+  const userIndex = Math.floor(Math.random() * size);
+  const userKeypair = keypairs[userIndex];
+  const cloudId = Date.now();
+
+  return {
+    addresses,
+    userIndex,
+    cloudId,
+    userKeypair,
+  };
 }
 
-/**
- * Get user's keypair from cloud
- */
 export function getUserKeypair(cloud: AddressCloud): Keypair {
-  return cloud.keypairs[cloud.userIndex];
+  return cloud.userKeypair;
 }
 
-/**
- * Generate ring signature inputs for Noir circuit
- */
 export function generateRingSignatureInputs(
   cloud: AddressCloud,
   message: string
 ): RingSignatureInputs {
-  const userKeypair = getUserKeypair(cloud);
-  const secretKeyBytes = userKeypair.secretKey.slice(0, 32);
-  const privateKeyValue = Buffer.from(secretKeyBytes).readBigUInt64LE(0).toString();
-
-  const ring = cloud.keypairs.map((kp, idx) => {
-    if (idx === cloud.userIndex) {
-      return privateKeyValue;
-    }
-    return (BigInt(idx) + BigInt(1000)).toString();
-  });
-
-  const messageHash = hashMessage(message);
-  const signature = (BigInt(privateKeyValue) + BigInt(messageHash)).toString();
+  const privateKeyField = cloud.userKeypair.secretKey[0].toString();
+  const signature = (BigInt(privateKeyField) + BigInt(message)).toString();
 
   return {
-    privateKey: privateKeyValue,
-    keyIndex: cloud.userIndex.toString(),
-    ring,
-    message: messageHash,
+    private_key: privateKeyField,
+    key_index: cloud.userIndex,
+    message,
     signature,
+    ring: cloud.addresses.map((addr) => addr.toBase58().slice(0, 10)),
   };
 }
 
-function hashMessage(message: string): string {
-  const hash = crypto.createHash('sha256').update(message).digest();
-  return hash.readBigUInt64LE(0).toString();
-}
-
-/**
- * Generate mock proof for Solana
- */
 export function generateMockProof(inputs: RingSignatureInputs): {
   proof: Buffer;
   publicInputs: Buffer;
 } {
-  const proofData = {
-    ring: inputs.ring,
+  const proofData = JSON.stringify({
+    ring_index: inputs.key_index,
     message: inputs.message,
     signature: inputs.signature,
+  });
+
+  return {
+    proof: Buffer.from(proofData),
+    publicInputs: Buffer.from(inputs.message),
   };
-
-  const proof = Buffer.from(JSON.stringify(proofData));
-  const publicInputs = Buffer.from(JSON.stringify({
-    ring: inputs.ring,
-    message: inputs.message,
-    signature: inputs.signature,
-  }));
-
-  return { proof, publicInputs };
 }
 
-/**
- * Save cloud to localStorage
- */
-export function saveCloud(cloud: AddressCloud, name: string = 'default') {
+export function saveCloud(cloud: AddressCloud, name?: string): void {
   if (typeof window === 'undefined') return;
 
   const cloudData = {
-    addresses: cloud.addresses.map(addr => addr.toBase58()),
-    keypairs: cloud.keypairs.map(kp => Array.from(kp.secretKey)),
-    cloudId: cloud.cloudId,
+    addresses: cloud.addresses.map((addr) => addr.toBase58()),
     userIndex: cloud.userIndex,
+    cloudId: cloud.cloudId,
+    userKeypair: Array.from(cloud.userKeypair.secretKey),
   };
 
-  localStorage.setItem(`cloud_${name}`, JSON.stringify(cloudData));
+  const key = name || `cloud_${cloud.cloudId}`;
+  localStorage.setItem(key, JSON.stringify(cloudData));
 }
 
-/**
- * Load cloud from localStorage
- */
-export function loadCloud(name: string = 'default'): AddressCloud | null {
+export function loadCloud(name: string): AddressCloud | null {
   if (typeof window === 'undefined') return null;
 
-  const stored = localStorage.getItem(`cloud_${name}`);
-  if (!stored) return null;
+  const cloudData = localStorage.getItem(name);
+  if (!cloudData) return null;
 
-  const cloudData = JSON.parse(stored);
-  
-  return {
-    addresses: cloudData.addresses.map((addr: string) => new PublicKey(addr)),
-    keypairs: cloudData.keypairs.map((sk: number[]) => 
-      Keypair.fromSecretKey(Uint8Array.from(sk))
-    ),
-    cloudId: cloudData.cloudId,
-    userIndex: cloudData.userIndex,
-  };
+  try {
+    const parsed = JSON.parse(cloudData);
+    return {
+      addresses: parsed.addresses.map((addr: string) => new PublicKey(addr)),
+      userIndex: parsed.userIndex,
+      cloudId: parsed.cloudId,
+      userKeypair: Keypair.fromSecretKey(new Uint8Array(parsed.userKeypair)),
+    };
+  } catch (error) {
+    console.error('Error loading cloud:', error);
+    return null;
+  }
 }
 
-/**
- * Format cloud info for display
- */
+export function loadAllClouds(): AddressCloud[] {
+  if (typeof window === 'undefined') return [];
+
+  const clouds: AddressCloud[] = [];
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('cloud_')) {
+      const cloud = loadCloud(key);
+      if (cloud) {
+        clouds.push(cloud);
+      }
+    }
+  }
+
+  clouds.sort((a, b) => b.cloudId - a.cloudId);
+  return clouds;
+}
+
 export function formatCloudInfo(cloud: AddressCloud) {
   return {
     totalAddresses: cloud.addresses.length,
     cloudId: cloud.cloudId,
     userAddress: cloud.addresses[cloud.userIndex].toBase58(),
-    allAddresses: cloud.addresses.map(addr => addr.toBase58()),
+    allAddresses: cloud.addresses.map((addr) => addr.toBase58()),
     anonymitySet: cloud.addresses.length,
   };
-}
-
-// Load all clouds from localStorage
-export function loadAllClouds(): AddressCloud[] {
-  if (typeof window === 'undefined') return [];
-  
-  const clouds: AddressCloud[] = [];
-  
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key && key.startsWith('cloud_')) {
-      const cloudData = localStorage.getItem(key);
-      if (cloudData) {
-        try {
-          clouds.push(JSON.parse(cloudData));
-        } catch (e) {
-          console.error('Error parsing cloud:', e);
-        }
-      }
-    }
-  }
-  
-  // Sort by cloudId (newest first)
-  return clouds.sort((a, b) => b.cloudId - a.cloudId);
 }
