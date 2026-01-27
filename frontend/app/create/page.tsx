@@ -1,155 +1,108 @@
 'use client';
 
 import { useState } from 'react';
-import { useWallet, useConnection } from '@solana/wallet-adapter-react';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { Keypair } from '@solana/web3.js';
 import Link from 'next/link';
+import { createAddressCloud, formatCloudInfo, SchrodingersWalletClient, saveCloud } from '../../lib/sdk';
 
 export default function CreateCloud() {
   const { connection } = useConnection();
   const wallet = useWallet();
   const [cloudSize, setCloudSize] = useState(10);
-  const [loading, setLoading] = useState(false);
-  const [cloudId, setCloudId] = useState<number | null>(null);
-  const [addresses, setAddresses] = useState<string[]>([]);
+  const [creating, setCreating] = useState(false);
+  const [status, setStatus] = useState('');
+  const [cloud, setCloud] = useState<any>(null);
+  const [txSignature, setTxSignature] = useState('');
 
-const createCloud = async () => {
-    if (!wallet.publicKey || !wallet.signTransaction) {
+  const handleCreateCloud = async () => {
+    if (!wallet.publicKey) {
       alert('Please connect your wallet first!');
       return;
     }
 
-    setLoading(true);
+    setCreating(true);
     try {
-      // Simulate network delay for realism
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      setStatus('Generating cloud locally...');
+      const newCloud = createAddressCloud(cloudSize);
+      const cloudInfo = formatCloudInfo(newCloud);
+      setCloud(cloudInfo);
       
-      // Generate ring of addresses
-      const ring: Keypair[] = [];
-      for (let i = 0; i < cloudSize; i++) {
-        ring.push(Keypair.generate());
-      }
+      await new Promise(r => setTimeout(r, 1000));
 
-      const generatedCloudId = Math.floor(Date.now() / 1000);
+      setStatus('Deploying to Solana devnet...');
+      const client = new SchrodingersWalletClient(connection, wallet);
+      const tx = await client.createCloud(newCloud.addresses, newCloud.cloudId);
       
-      setCloudId(generatedCloudId);
-      setAddresses(ring.map(kp => kp.publicKey.toString()));
-      
-      // Show success message with note about demo mode
-      alert(`✅ Probability Cloud Created!\n\nCloud ID: ${generatedCloudId}\n${cloudSize} addresses generated\n\n🎭 Demo Mode: Addresses generated locally\n⚡ Full on-chain integration coming soon!`);
+      setTxSignature(tx);
+      setStatus('Success! Cloud deployed on-chain!');
+      saveCloud(newCloud);
       
     } catch (error) {
-      console.error('Error creating cloud:', error);
-      alert('Error creating cloud: ' + error);
+      console.error('Error:', error);
+      setStatus('Error: ' + (error instanceof Error ? error.message : 'Unknown'));
     } finally {
-      setLoading(false);
-    }
-  };
-
-  
-    // Generate ring of addresses
-      const ring: Keypair[] = [];
-      for (let i = 0; i < cloudSize; i++) {
-        ring.push(Keypair.generate());
-      }
-
-      const generatedCloudId = Math.floor(Date.now() / 1000);
-      
-      // Import the helper function
-      const { createCloudOnChain } = await import('@/lib/solana/createCloud');
-      
-      const signature = await createCloudOnChain(
-        connection,
-        wallet.publicKey,
-        ring.map(kp => kp.publicKey),
-        generatedCloudId,
-        wallet.signTransaction
-      );
-      
-      console.log('Cloud created! TX:', signature);
-      setCloudId(generatedCloudId);
-      setAddresses(ring.map(kp => kp.publicKey.toString()));
-      
-      alert(`✅ Probability cloud created on-chain!\n\nTX: ${signature}\n\nView on explorer: https://explorer.solana.com/tx/${signature}?cluster=devnet`);
-      
-    } catch (error) {
-      console.error('Error creating cloud:', error);
-      alert('Error creating cloud: ' + error);
-    } finally {
-      setLoading(false);
+      setCreating(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
       <nav className="p-6 flex justify-between items-center border-b border-gray-800">
-        <Link href="/" className="text-2xl font-bold">Schrödinger's Wallet</Link>
+        <Link href="/" className="text-2xl font-bold">Schrodingers Wallet</Link>
         <WalletMultiButton />
       </nav>
 
-      <main className="container mx-auto px-6 py-20 max-w-2xl">
+      <main className="container mx-auto px-6 py-12 max-w-3xl">
         <h1 className="text-4xl font-bold mb-8">Create Probability Cloud</h1>
 
-        {!cloudId ? (
-          <div className="bg-gray-800 p-8 rounded-lg">
-            <div className="mb-6">
-              <label className="block text-sm font-medium mb-2">
-                Cloud Size (Number of Addresses)
-              </label>
-              <input
-                type="range"
-                min="5"
-                max="20"
-                value={cloudSize}
-                onChange={(e) => setCloudSize(parseInt(e.target.value))}
-                className="w-full"
-              />
-              <div className="text-center text-2xl font-bold mt-2">{cloudSize} addresses</div>
-            </div>
-
-            <p className="text-gray-400 mb-6">
-              Your identity will be distributed across {cloudSize} addresses. 
-              Observers won't be able to tell which one is you.
-            </p>
-
-            <button
-              onClick={createCloud}
-              disabled={loading || !wallet.connected}
-              className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 px-6 py-3 rounded-lg font-semibold transition"
-            >
-              {loading ? 'Creating Cloud...' : wallet.connected ? 'Create Cloud' : 'Connect Wallet First'}
-            </button>
+        <div className="bg-gray-800 rounded-lg p-8 mb-6">
+          <h2 className="text-2xl font-bold mb-4">Configure Your Cloud</h2>
+          
+          <div className="mb-6">
+            <label className="block text-sm font-medium mb-2">
+              Cloud Size: {cloudSize} addresses
+            </label>
+            <input
+              type="range"
+              min="2"
+              max="20"
+              value={cloudSize}
+              onChange={(e) => setCloudSize(Number(e.target.value))}
+              className="w-full"
+            />
           </div>
-        ) : (
-          <div className="bg-gray-800 p-8 rounded-lg">
-            <h2 className="text-2xl font-bold mb-4 text-green-400">✅ Cloud Created!</h2>
-            <p className="text-gray-400 mb-4">Cloud ID: {cloudId}</p>
-            
-            <div className="mb-6">
-              <h3 className="font-bold mb-2">Your Probability Cloud ({addresses.length} addresses):</h3>
-              <div className="bg-gray-900 p-4 rounded max-h-60 overflow-y-auto">
-                {addresses.map((addr, i) => (
-                  <div key={i} className="text-xs font-mono mb-1 text-gray-400">
-                    {i + 1}. {addr}
-                  </div>
-                ))}
-              </div>
-              <p className="text-sm text-purple-400 mt-4">
-                ✨ Your cloud is now on Solana devnet!
-              </p>
-            </div>
 
-            <Link
-              href="/dashboard"
-              className="block text-center bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-semibold transition"
-            >
-              Go to Dashboard
-            </Link>
+          <button
+            onClick={handleCreateCloud}
+            disabled={creating || !wallet.publicKey}
+            className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 px-6 py-4 rounded-lg font-semibold text-lg"
+          >
+            {!wallet.publicKey ? 'Connect Wallet First' : creating ? 'Creating...' : 'Create Cloud'}
+          </button>
+        </div>
+
+        {status && <div className="bg-blue-900 p-4 rounded mb-4">{status}</div>}
+        
+        {cloud && (
+          <div className="bg-gray-800 p-6 rounded mb-4">
+            <h3 className="font-bold mb-2">Cloud Generated!</h3>
+            <div className="text-sm space-y-1">
+              <div>Addresses: {cloud.totalAddresses}</div>
+              <div>Cloud ID: {cloud.cloudId}</div>
+              <div>Your Address: {cloud.userAddress}</div>
+            </div>
+          </div>
+        )}
+
+        {txSignature && (
+          <div className="bg-green-900 p-6 rounded">
+            <h3 className="font-bold mb-2">Success!</h3>
+            <p className="text-sm mb-2">Cloud deployed to Solana</p>
+            <div className="text-xs font-mono break-all">{txSignature}</div>
           </div>
         )}
       </main>
     </div>
   );
 }
-

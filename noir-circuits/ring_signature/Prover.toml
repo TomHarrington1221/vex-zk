@@ -1,5 +1,5 @@
-key_index = ""
-message = ""
-private_key = ""
-ring = ["", "", "", "", "", "", "", "", "", ""]
-signature = ""
+private_key = "12345"
+key_index = "3"
+message = "99999"
+signature = "112344"
+ring = ["111", "222", "333", "12345", "555", "666", "777", "888", "999", "1010"]

@@ -1,7 +1,6 @@
 import * as anchor from '@coral-xyz/anchor';
 import { Program } from '@coral-xyz/anchor';
 import { Connection, PublicKey } from '@solana/web3.js';
-import IDL from './idl.json';
 
 const PROGRAM_ID = new PublicKey('83wuRQ6DNzMqsgNDJo1zgvMzYX5pXz4dfcNSTtam5SVU');
 
@@ -18,17 +17,20 @@ export class SchrodingersWalletClient {
       { commitment: 'confirmed' }
     );
 
+    const IDL = require('./idl.json');
     this.program = new Program(IDL as any, provider);
   }
 
-  /**
-   * Create a new probability cloud (ring of addresses)
-   */
   async createCloud(
     ringPublicKeys: PublicKey[],
     cloudId: number
   ): Promise<string> {
-    const [cloudPda] = PublicKey.findProgramAddressSync(
+    console.log('Creating cloud...');
+    console.log('Authority (wallet):', this.program.provider.publicKey?.toBase58());
+    console.log('Cloud ID:', cloudId);
+    console.log('Ring size:', ringPublicKeys.length);
+
+    const [cloudPda, bump] = PublicKey.findProgramAddressSync(
       [
         Buffer.from('cloud'),
         this.program.provider.publicKey!.toBuffer(),
@@ -36,6 +38,9 @@ export class SchrodingersWalletClient {
       ],
       this.program.programId
     );
+
+    console.log('Computed PDA:', cloudPda.toBase58());
+    console.log('Bump:', bump);
 
     const tx = await this.program.methods
       .createCloud(
@@ -50,14 +55,9 @@ export class SchrodingersWalletClient {
       .rpc();
 
     console.log('Cloud created! TX:', tx);
-    console.log('Cloud PDA:', cloudPda.toBase58());
-
     return tx;
   }
 
-  /**
-   * Get a probability cloud by ID
-   */
   async getCloud(authority: PublicKey, cloudId: number) {
     const [cloudPda] = PublicKey.findProgramAddressSync(
       [
@@ -68,12 +68,14 @@ export class SchrodingersWalletClient {
       this.program.programId
     );
 
-    return await this.program.account.probabilityCloud.fetch(cloudPda);
+    try {
+      return await (this.program.account as any).probabilityCloud.fetch(cloudPda);
+    } catch (error) {
+      console.error('Error fetching cloud:', error);
+      return null;
+    }
   }
 
-  /**
-   * Execute a transfer with ring signature proof
-   */
   async transferWithRingProof(
     cloudPda: PublicKey,
     sender: PublicKey,
@@ -100,9 +102,6 @@ export class SchrodingersWalletClient {
     return tx;
   }
 
-  /**
-   * Get cloud PDA address
-   */
   getCloudPda(authority: PublicKey, cloudId: number): PublicKey {
     const [cloudPda] = PublicKey.findProgramAddressSync(
       [

@@ -19,21 +19,28 @@ export default function Home() {
             Privacy Through
             <span className="text-purple-500"> Uncertainty</span>
           </h2>
-          
+
           <p className="text-xl text-gray-400 mb-12">
-            Your wallet exists as a probability cloud. Observers see activity 
+            Your wallet exists as a probability cloud. Observers see activity
             but can never pin down WHO you are. Ring signatures meet zero-knowledge proofs.
           </p>
 
           <div className="flex gap-4 justify-center">
-            <Link 
+            <Link
+              href="/demo"
+              className="bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-lg font-semibold text-lg transition"
+            >
+              See How It Works
+            </Link>
+
+            <Link
               href="/create"
               className="bg-purple-600 hover:bg-purple-700 px-8 py-4 rounded-lg font-semibold text-lg transition"
             >
               Create Probability Cloud
             </Link>
-            
-            <Link 
+
+            <Link
               href="/dashboard"
               className="bg-gray-800 hover:bg-gray-700 px-8 py-4 rounded-lg font-semibold text-lg transition"
             >
@@ -69,4 +76,3 @@ export default function Home() {
     </div>
   );
 }
-

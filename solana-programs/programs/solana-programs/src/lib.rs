@@ -6,7 +6,6 @@ declare_id!("83wuRQ6DNzMqsgNDJo1zgvMzYX5pXz4dfcNSTtam5SVU");
 pub mod solana_programs {
     use super::*;
 
-    /// Initialize the probability cloud registry
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
         let registry = &mut ctx.accounts.registry;
         registry.authority = ctx.accounts.authority.key();
@@ -15,7 +14,6 @@ pub mod solana_programs {
         Ok(())
     }
 
-    /// Create a new probability cloud (ring of addresses)
     pub fn create_cloud(
         ctx: Context<CreateCloud>,
         ring_public_keys: Vec<[u8; 32]>,
@@ -35,7 +33,6 @@ pub mod solana_programs {
         Ok(())
     }
 
-    /// Execute a transaction using ring signature proof
     pub fn transfer_with_ring_proof(
         ctx: Context<TransferWithRing>,
         proof: Vec<u8>,
@@ -43,7 +40,6 @@ pub mod solana_programs {
         amount: u64,
     ) -> Result<()> {
         msg!("Verifying ring signature proof...");
-        
         require!(proof.len() > 0, ErrorCode::InvalidProof);
         require!(public_inputs.len() > 0, ErrorCode::InvalidPublicInputs);
 
@@ -65,7 +61,6 @@ pub mod solana_programs {
         Ok(())
     }
 
-    /// Prove aggregate holdings across the ring
     pub fn prove_holdings(
         ctx: Context<ProveHoldings>,
         proof: Vec<u8>,
@@ -73,7 +68,7 @@ pub mod solana_programs {
     ) -> Result<()> {
         msg!("Verifying holdings proof for threshold: {}", threshold);
         require!(proof.len() > 0, ErrorCode::InvalidProof);
-        
+
         emit!(HoldingsProofVerified {
             cloud_id: ctx.accounts.cloud.cloud_id,
             threshold,
@@ -98,7 +93,7 @@ pub struct Initialize<'info> {
 }
 
 #[derive(Accounts)]
-#[instruction(cloud_id: u64)]
+#[instruction(ring_public_keys: Vec<[u8; 32]>, cloud_id: u64)]
 pub struct CreateCloud<'info> {
     #[account(
         init,
@@ -167,5 +162,3 @@ pub enum ErrorCode {
     #[msg("Invalid public inputs")]
     InvalidPublicInputs,
 }
-
-
