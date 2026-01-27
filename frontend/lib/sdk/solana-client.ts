@@ -29,13 +29,17 @@ export class SchrodingersWalletClient {
     ringPublicKeys: PublicKey[],
     cloudId: number
   ): Promise<string> {
+    if (!this.program.provider.publicKey) {
+      throw new Error('Wallet not connected');
+    }
+
     try {
       console.log('Creating cloud with', ringPublicKeys.length, 'addresses');
       
       const [cloudPda] = PublicKey.findProgramAddressSync(
         [
           Buffer.from('cloud'),
-          this.program.provider.publicKey!.toBuffer(),
+          this.program.provider.publicKey.toBuffer(),
           new anchor.BN(cloudId).toArrayLike(Buffer, 'le', 8),
         ],
         this.program.programId
@@ -44,7 +48,6 @@ export class SchrodingersWalletClient {
       console.log('PDA:', cloudPda.toBase58());
       console.log('Sending transaction with fresh blockhash...');
 
-      // Get fresh blockhash
       const { blockhash, lastValidBlockHeight } = await this.connection.getLatestBlockhash('confirmed');
       console.log('Got blockhash:', blockhash);
 
@@ -66,7 +69,6 @@ export class SchrodingersWalletClient {
 
       console.log('Success! TX:', tx);
       
-      // Wait for confirmation
       const confirmation = await this.connection.confirmTransaction({
         signature: tx,
         blockhash,
@@ -84,7 +86,6 @@ export class SchrodingersWalletClient {
       console.error('Error message:', error.message);
       console.error('Error logs:', error.logs);
       
-      // More helpful error messages
       if (error.message?.includes('Blockhash not found')) {
         throw new Error('Network timeout - please try again');
       } else if (error.message?.includes('insufficient')) {
