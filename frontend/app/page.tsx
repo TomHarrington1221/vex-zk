@@ -21,7 +21,7 @@ export default function Home() {
           </h2>
 
           <p className="text-xl text-gray-400 mb-12">
-            Your wallet exists as a Vexil Vexil Probability Cloud. Observers see activity
+            Your wallet exists as a Vexil Probability Cloud. Observers see activity
             but can never pin down WHO you are. Ring signatures meet zero-knowledge proofs.
           </p>
 
