@@ -31,7 +31,9 @@ export function createAddressCloud(size: number): AddressCloud {
 
   const userIndex = Math.floor(Math.random() * size);
   const userKeypair = keypairs[userIndex];
-  const cloudId = Date.now();
+  
+  // Add randomness to prevent collisions
+  const cloudId = Date.now() + Math.floor(Math.random() * 1000);
 
   return {
     addresses,
