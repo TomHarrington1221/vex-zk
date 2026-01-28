@@ -52,6 +52,10 @@ export default function CreateCloud() {
     }
   };
 
+  const explorerUrl = txSignature 
+    ? `https://explorer.solana.com/tx/${txSignature}?cluster=devnet`
+    : '#';
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
       <nav className="p-6 flex justify-between items-center border-b border-gray-800">
@@ -98,9 +102,9 @@ export default function CreateCloud() {
           </button>
         </div>
 
-        {status && (
-          <div className={`p-4 rounded-lg mb-4 ${error ? 'bg-red-900' : 'bg-blue-900'}`}>
-            {error ? 'Error: ' : ''}{status}
+        {status && !error && (
+          <div className="p-4 rounded-lg mb-4 bg-blue-900">
+            {status}
           </div>
         )}
 
@@ -135,7 +139,7 @@ export default function CreateCloud() {
                 Go to Dashboard
               </Link>
               
-                href={`https://explorer.solana.com/tx/${txSignature}?cluster=devnet`}
+                href={explorerUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-semibold text-center transition"
