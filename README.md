@@ -24,7 +24,7 @@ Blockchain is completely transparent. Every transaction you make is public:
 
 **Vex.zk Protocol** introduces **probabilistic identity** to Solana:
 
-Instead of having ONE identifiable wallet address, you exist as a **Vexil Vexil Probability Cloud** of N addresses. Observers know you're ONE of them, but cryptographically cannot determine which one.
+Instead of having ONE identifiable wallet address, you exist as a **Vexil Probability Cloud** of N addresses. Observers know you're ONE of them, but cryptographically cannot determine which one.
 
 ### How It Works (In Plain English):
 
@@ -336,7 +336,7 @@ MIT License - See LICENSE file for details
 
 ## 🔗 Links
 
-- **Live App**: https://your-deployed-app.vercel.app
+- **Live App**: https://vex-zk.vercel.app
 - **Demo Video**: https://your-video-link.com
 - **Solana Explorer**: https://explorer.solana.com/address/83wuRQ6DNzMqsgNDJo1zgvMzYX5pXz4dfcNSTtam5SVU?cluster=devnet
 - **Hackathon Submission**: https://solana.com/privacyhack
