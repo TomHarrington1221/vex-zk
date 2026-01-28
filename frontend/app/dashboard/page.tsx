@@ -116,7 +116,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
       <nav className="p-6 flex justify-between items-center border-b border-gray-800 bg-gray-900 bg-opacity-50 backdrop-blur">
         <Link href="/" className="text-2xl font-bold hover:text-purple-400 transition">
-          Schrodingers Wallet
+          Vex.zk Protocol
         </Link>
         <div className="flex gap-4 items-center">
           <Link href="/create" className="text-purple-400 hover:text-purple-300 transition">
@@ -132,7 +132,7 @@ export default function Dashboard() {
       <main className="container mx-auto px-6 py-12 max-w-7xl">
         <div className="mb-8">
           <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
-            My Probability Clouds
+            My Vexil Probability Clouds
           </h1>
           <p className="text-xl text-gray-400">
             Your on-chain privacy management dashboard
@@ -187,7 +187,7 @@ export default function Dashboard() {
             <div className="text-6xl mb-4">Lock</div>
             <h2 className="text-3xl font-bold mb-3">Connect Your Wallet</h2>
             <p className="text-yellow-200 mb-6 text-lg max-w-md mx-auto">
-              Connect your Solana wallet to view and manage your probability clouds
+              Connect your Solana wallet to view and manage your Vexil Vexil Probability Clouds
             </p>
             <WalletMultiButton />
             <p className="text-sm text-yellow-300 mt-4">
@@ -201,7 +201,7 @@ export default function Dashboard() {
             <div className="text-8xl mb-6">Cloud</div>
             <h2 className="text-3xl font-bold mb-3">No Clouds Yet</h2>
             <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto">
-              Create your first probability cloud to start protecting your privacy on-chain
+              Create your first Vexil Vexil Probability Cloud to start protecting your privacy on-chain
             </p>
             <Link
               href="/create"

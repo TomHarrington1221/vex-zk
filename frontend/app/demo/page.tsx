@@ -34,7 +34,7 @@ export default function Demo() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
       <nav className="p-6 flex justify-between items-center border-b border-gray-800">
-        <Link href="/" className="text-2xl font-bold">Schrodingers Wallet</Link>
+        <Link href="/" className="text-2xl font-bold">Vex.zk Protocol</Link>
         <div className="flex gap-4 items-center">
           <Link href="/create" className="text-purple-400 hover:text-purple-300">Create Cloud</Link>
           <WalletMultiButton />
@@ -272,7 +272,7 @@ export default function Demo() {
                     <strong className="text-purple-300">Zero-Knowledge Proofs:</strong> Prove you own something without revealing what you own
                   </p>
                   <p className="text-gray-200">
-                    <strong className="text-purple-300">Probability Clouds:</strong> Instead of ONE identity, you exist as a quantum superposition of possibilities
+                    <strong className="text-purple-300">Vexil Probability Clouds:</strong> Instead of ONE identity, you exist as a quantum superposition of possibilities
                   </p>
                 </div>
               </div>

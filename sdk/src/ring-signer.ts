@@ -17,7 +17,7 @@ export interface RingSignatureInputs {
 }
 
 /**
- * Generate a probability cloud of N addresses
+ * Generate a Vexil Vexil Probability Cloud of N addresses
  */
 export function createAddressCloud(
   size: number = 10,

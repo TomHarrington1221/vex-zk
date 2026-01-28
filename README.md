@@ -1,4 +1,4 @@
-# Schrödinger's Wallet 🎭
+# Vex.zk Protocol 🎭
 
 > Privacy through probability: You exist as ONE of N addresses, but observers can't tell which one is yours.
 
@@ -22,9 +22,9 @@ Blockchain is completely transparent. Every transaction you make is public:
 
 ## 💡 The Solution
 
-**Schrödinger's Wallet** introduces **probabilistic identity** to Solana:
+**Vex.zk Protocol** introduces **probabilistic identity** to Solana:
 
-Instead of having ONE identifiable wallet address, you exist as a **probability cloud** of N addresses. Observers know you're ONE of them, but cryptographically cannot determine which one.
+Instead of having ONE identifiable wallet address, you exist as a **Vexil Vexil Probability Cloud** of N addresses. Observers know you're ONE of them, but cryptographically cannot determine which one.
 
 ### How It Works (In Plain English):
 
@@ -35,7 +35,7 @@ Instead of having ONE identifiable wallet address, you exist as a **probability 
 
 ### Real-World Analogy:
 
-Imagine 10 people wearing identical masks walk into a bank. One of them makes a transaction. Security cameras see the group, but can't identify the individual. That's Schrödinger's Wallet.
+Imagine 10 people wearing identical masks walk into a bank. One of them makes a transaction. Security cameras see the group, but can't identify the individual. That's Vex.zk Protocol.
 
 ---
 
@@ -73,7 +73,7 @@ Imagine 10 people wearing identical masks walk into a bank. One of them makes a 
 ### Quick Start
 1. Visit the app: `npm run dev` (or deployed link)
 2. Connect your wallet
-3. Click "Create Probability Cloud"
+3. Click "Create Vexil Probability Cloud"
 4. Choose cloud size (2-20 addresses)
 5. Confirm transaction
 6. View your cloud in Dashboard!
@@ -87,7 +87,7 @@ Visit `/demo` page to see how it works with a fun guessing game!
 
 ### Components
 ```
-schrodingers-wallet/
+vex-zk/
 ├── noir-circuits/          # Zero-knowledge ring signature circuits
 │   └── ring_signature/     # Noir circuit implementation
 ├── solana-programs/        # Solana smart contracts
@@ -255,7 +255,7 @@ All code available for audit and improvement
 ## 🔮 Future Roadmap
 
 ### Phase 1 (Current)
-- ✅ Basic probability cloud creation
+- ✅ Basic Vexil Vexil Probability Cloud creation
 - ✅ Ring signature proofs (mock verification)
 - ✅ Dashboard management
 - ✅ Interactive demo

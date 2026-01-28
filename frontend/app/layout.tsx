@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Schrödinger's Wallet",
+  title: "Vex.zk Protocol",
   description: "Privacy through probabilistic identity on Solana",
 };
 

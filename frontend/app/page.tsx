@@ -8,7 +8,7 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
       {/* Header */}
       <nav className="p-6 flex justify-between items-center border-b border-gray-800">
-        <h1 className="text-2xl font-bold">Schrödinger's Wallet</h1>
+        <h1 className="text-2xl font-bold">Vex.zk Protocol</h1>
         <WalletMultiButton />
       </nav>
 
@@ -21,7 +21,7 @@ export default function Home() {
           </h2>
 
           <p className="text-xl text-gray-400 mb-12">
-            Your wallet exists as a probability cloud. Observers see activity
+            Your wallet exists as a Vexil Vexil Probability Cloud. Observers see activity
             but can never pin down WHO you are. Ring signatures meet zero-knowledge proofs.
           </p>
 
@@ -37,7 +37,7 @@ export default function Home() {
               href="/create"
               className="bg-purple-600 hover:bg-purple-700 px-8 py-4 rounded-lg font-semibold text-lg transition"
             >
-              Create Probability Cloud
+              Create Vexil Probability Cloud
             </Link>
 
             <Link

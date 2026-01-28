@@ -1,6 +1,6 @@
 # Quick Setup Guide
 
-Get Schrödinger's Wallet running in 10 minutes!
+Get Vex.zk Protocol running in 10 minutes!
 
 ## Prerequisites
 
@@ -11,8 +11,8 @@ Get Schrödinger's Wallet running in 10 minutes!
 ## Installation
 ```bash
 # Clone the repo
-git clone https://github.com/TomHarrington1221/schrodingers-wallet.git
-cd schrodingers-wallet
+git clone https://github.com/TomHarrington1221/vex-zk.git
+cd vex-zk
 
 # Install frontend dependencies
 cd frontend

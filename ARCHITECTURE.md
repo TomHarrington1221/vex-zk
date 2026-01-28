@@ -2,7 +2,7 @@
 
 ## Overview
 
-Schrödinger's Wallet implements probabilistic identity on Solana using ring signatures and zero-knowledge proofs.
+Vex.zk Protocol implements probabilistic identity on Solana using ring signatures and zero-knowledge proofs.
 
 ## System Components
 

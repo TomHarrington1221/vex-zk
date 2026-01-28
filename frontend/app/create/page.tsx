@@ -49,12 +49,12 @@ export default function CreateCloud() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
       <nav className="p-6 flex justify-between items-center border-b border-gray-800">
-        <Link href="/" className="text-2xl font-bold">Schrodingers Wallet</Link>
+        <Link href="/" className="text-2xl font-bold">Vex.zk Protocol</Link>
         <WalletMultiButton />
       </nav>
 
       <main className="container mx-auto px-6 py-12 max-w-3xl">
-        <h1 className="text-4xl font-bold mb-8">Create Probability Cloud</h1>
+        <h1 className="text-4xl font-bold mb-8">Create Vexil Probability Cloud</h1>
 
         <div className="bg-gray-800 rounded-lg p-8 mb-6">
           <h2 className="text-2xl font-bold mb-4">Configure Your Cloud</h2>

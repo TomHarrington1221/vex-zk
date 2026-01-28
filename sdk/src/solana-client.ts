@@ -22,7 +22,7 @@ export class SchrodingersWalletClient {
   }
 
   /**
-   * Create a new probability cloud (ring of addresses)
+   * Create a new Vexil Vexil Probability Cloud (ring of addresses)
    */
   async createCloud(
     ringPublicKeys: PublicKey[],
@@ -56,7 +56,7 @@ export class SchrodingersWalletClient {
   }
 
   /**
-   * Get a probability cloud by ID
+   * Get a Vexil Vexil Probability Cloud by ID
    */
   async getCloud(authority: PublicKey, cloudId: number) {
     const [cloudPda] = PublicKey.findProgramAddressSync(
