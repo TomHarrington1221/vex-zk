@@ -142,25 +142,25 @@ export default function Dashboard() {
         {wallet.connected && clouds.length > 0 && (
           <div className="grid md:grid-cols-4 gap-4 mb-8">
             <div className="bg-gradient-to-br from-purple-900 to-purple-800 rounded-lg p-6 border border-purple-700">
-              <div className="text-3xl mb-2">Cloud Icon</div>
+              <div className="text-3xl mb-2">☁️</div>
               <div className="text-3xl font-bold">{clouds.length}</div>
               <div className="text-purple-200 text-sm">Total Clouds</div>
             </div>
             
             <div className="bg-gradient-to-br from-blue-900 to-blue-800 rounded-lg p-6 border border-blue-700">
-              <div className="text-3xl mb-2">Mask Icon</div>
+              <div className="text-3xl mb-2">🎭</div>
               <div className="text-3xl font-bold">{getTotalPrivacy()}</div>
               <div className="text-blue-200 text-sm">Total Addresses</div>
             </div>
             
             <div className="bg-gradient-to-br from-green-900 to-green-800 rounded-lg p-6 border border-green-700">
-              <div className="text-3xl mb-2">Lock Icon</div>
+              <div className="text-3xl mb-2">🔒</div>
               <div className="text-3xl font-bold">1 in {getAverageAnonymity()}</div>
               <div className="text-green-200 text-sm">Avg Anonymity</div>
             </div>
             
             <div className="bg-gradient-to-br from-yellow-900 to-yellow-800 rounded-lg p-6 border border-yellow-700">
-              <div className="text-3xl mb-2">Chain Icon</div>
+              <div className="text-3xl mb-2">⛓️</div>
               <div className="text-3xl font-bold">{Object.keys(verified).length}</div>
               <div className="text-yellow-200 text-sm">Verified On-Chain</div>
             </div>
@@ -170,7 +170,7 @@ export default function Dashboard() {
         {wallet.connected && clouds.length > 0 && (
           <div className="bg-blue-900 bg-opacity-30 border border-blue-700 rounded-lg p-4 mb-8">
             <div className="flex items-start gap-3">
-              <div className="text-2xl">Info</div>
+              <div className="text-2xl">💡</div>
               <div className="flex-1">
                 <h3 className="font-bold text-blue-200 mb-1">How This Works</h3>
                 <p className="text-sm text-blue-300">
