@@ -201,7 +201,7 @@ export default function Dashboard() {
             <div className="text-8xl mb-6">Cloud</div>
             <h2 className="text-3xl font-bold mb-3">No Clouds Yet</h2>
             <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto">
-              Create your first Vexil Vexil Probability Cloud to start protecting your privacy on-chain
+              Create your first Vexil Probability Cloud to start protecting your privacy on-chain
             </p>
             <Link
               href="/create"
