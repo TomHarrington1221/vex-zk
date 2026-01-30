@@ -187,7 +187,7 @@ export default function Dashboard() {
             <div className="text-6xl mb-4">Lock</div>
             <h2 className="text-3xl font-bold mb-3">Connect Your Wallet</h2>
             <p className="text-yellow-200 mb-6 text-lg max-w-md mx-auto">
-              Connect your Solana wallet to view and manage your Vexil Vexil Probability Clouds
+              Connect your Solana wallet to view and manage your Vexil Probability Clouds
             </p>
             <WalletMultiButton />
             <p className="text-sm text-yellow-300 mt-4">
