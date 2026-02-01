@@ -258,7 +258,7 @@ All code available for audit and improvement
 ## 🔮 Future Roadmap
 
 ### Phase 1 (Current)
-- ✅ Basic Vexil Vexil Probability Cloud creation
+- ✅ Basic Vexil Probability Cloud creation
 - ✅ Ring signature proofs (mock verification)
 - ✅ Dashboard management
 - ✅ Interactive demo

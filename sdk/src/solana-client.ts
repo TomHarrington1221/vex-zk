@@ -22,7 +22,7 @@ export class VexzkClient {
   }
 
   /**
-   * Create a new Vexil Vexil Probability Cloud (ring of addresses)
+   * Create a new Vexil Probability Cloud (ring of addresses)
    */
   async createCloud(
     ringPublicKeys: PublicKey[],
@@ -56,7 +56,7 @@ export class VexzkClient {
   }
 
   /**
-   * Get a Vexil Vexil Probability Cloud by ID
+   * Get a Vexil Probability Cloud by ID
    */
   async getCloud(authority: PublicKey, cloudId: number) {
     const [cloudPda] = PublicKey.findProgramAddressSync(
