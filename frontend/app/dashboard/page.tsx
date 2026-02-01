@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import Link from 'next/link';
-import { SchrodingersWalletClient } from '../../lib/sdk';
+import { VexzkClient } from '../../lib/sdk';
 
 interface CloudData {
   cloudId: number;
@@ -60,7 +60,7 @@ export default function Dashboard() {
     
     setVerifying(cloud.cloudId);
     try {
-      const client = new SchrodingersWalletClient(connection, wallet);
+      const client = new VexzkClient(connection, wallet);
       const cloudData = await client.getCloud(wallet.publicKey, cloud.cloudId);
       
       if (cloudData) {

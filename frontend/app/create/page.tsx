@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import Link from 'next/link';
-import { createAddressCloud, saveCloud, SchrodingersWalletClient } from '../../lib/sdk';
+import { createAddressCloud, saveCloud, VexzkClient } from '../../lib/sdk';
 
 export default function CreateCloud() {
   const wallet = useWallet();
@@ -38,7 +38,7 @@ export default function CreateCloud() {
 
       setStatus('Deploying to Solana...');
 
-      const client = new SchrodingersWalletClient(connection, wallet);
+      const client = new VexzkClient(connection, wallet);
       const signature = await client.createCloud(cloud.addresses, cloud.cloudId);
 
       saveCloud(cloud);

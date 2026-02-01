@@ -18,7 +18,7 @@
 ## 1:30-2:00 - Live Creation (30 sec)
 **Visual:** Create page
 
-"Watch me create a real Vexil Vexil Probability Cloud on Solana devnet. Boom! 10 addresses generated. I'm one of them, but you can't tell which."
+"Watch me create a real Vexil Probability Cloud on Solana devnet. Boom! 10 addresses generated. I'm one of them, but you can't tell which."
 
 ## 2:00-2:30 - Dashboard & Verification (30 sec)
 **Visual:** Dashboard with clouds

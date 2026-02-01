@@ -4,7 +4,7 @@ import { Connection, PublicKey } from '@solana/web3.js';
 
 const PROGRAM_ID = new PublicKey('83wuRQ6DNzMqsgNDJo1zgvMzYX5pXz4dfcNSTtam5SVU');
 
-export class SchrodingersWalletClient {
+export class VexzkClient {
   program: Program;
   connection: Connection;
 

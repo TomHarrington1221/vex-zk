@@ -69,7 +69,7 @@ export function createAddressCloud(size: number): AddressCloud {
 
 **Blockchain Client** (`solana-client.ts`):
 ```typescript
-export class SchrodingersWalletClient {
+export class VexzkClient {
   async createCloud(addresses: PublicKey[], cloudId: number)
   async getCloud(authority: PublicKey, cloudId: number)
   async transferWithRingProof(...)
