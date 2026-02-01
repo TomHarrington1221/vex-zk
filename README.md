@@ -2,12 +2,12 @@
 
 > Privacy through probability: You exist as ONE of N addresses, but observers can't tell which one is yours.
 
-🚀 **[LIVE DEMO →](https://vex-zk.vercel.app)** | 📹 [Video Demo](Video coming soon)
+🚀 **[LIVE DEMO →](https://vex-zk.vercel.app)** | 📹 [Video Demo](https://youtu.be/Ze6bk7LhSoI)
 
 
 **Solana Privacy Hackathon 2026 Submission**
 
-[Live Demo](https://vex-zk.vercel.app) | [Video Walkthrough](Video coming soon)
+[Live Demo](https://vex-zk.vercel.app) | [Video Walkthrough](https://youtu.be/Ze6bk7LhSoI)
 
 ---
 
@@ -279,7 +279,7 @@ All code available for audit and improvement
 
 ## 📹 Demo Video
 
-[Watch the 3-minute demo](Video coming soon)
+[Watch the 3-minute demo](https://youtu.be/Ze6bk7LhSoI)
 
 **Topics covered:**
 - Problem explanation
@@ -340,7 +340,7 @@ MIT License - See LICENSE file for details
 ## 🔗 Links
 
 - **Live App**: https://vex-zk.vercel.app
-- **Demo Video**: Video coming soon
+- **Demo Video**: https://youtu.be/Ze6bk7LhSoI
 - **Solana Explorer**: https://explorer.solana.com/address/83wuRQ6DNzMqsgNDJo1zgvMzYX5pXz4dfcNSTtam5SVU?cluster=devnet
 - **Hackathon Submission**: https://solana.com/privacyhack
 
