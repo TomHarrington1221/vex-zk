@@ -184,7 +184,7 @@ export default function Dashboard() {
 
         {!wallet.connected && (
           <div className="bg-gradient-to-br from-yellow-900 to-orange-900 border-2 border-yellow-600 rounded-xl p-12 text-center">
-            <div className="text-6xl mb-4">Lock</div>
+            <div className="text-6xl mb-4">🔒</div>
             <h2 className="text-3xl font-bold mb-3">Connect Your Wallet</h2>
             <p className="text-yellow-200 mb-6 text-lg max-w-md mx-auto">
               Connect your Solana wallet to view and manage your Vexil Probability Clouds
@@ -198,7 +198,7 @@ export default function Dashboard() {
 
         {wallet.connected && clouds.length === 0 && (
           <div className="bg-gray-800 rounded-xl p-16 text-center border-2 border-dashed border-gray-600">
-            <div className="text-8xl mb-6">Cloud</div>
+            <div className="text-8xl mb-6">☁️</div>
             <h2 className="text-3xl font-bold mb-3">No Clouds Yet</h2>
             <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto">
               Create your first Vexil Probability Cloud to start protecting your privacy on-chain
