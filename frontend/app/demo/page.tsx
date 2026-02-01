@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
@@ -11,9 +11,9 @@ export default function Demo() {
   const [showResult, setShowResult] = useState(false);
 
   const cloudSize = 10;
-  const addresses = Array.from({ length: cloudSize }, (_, i) => 
+  const addresses = useMemo(() => Array.from({ length: cloudSize }, (_, i) =>
     `Wallet${i + 1}...${Math.random().toString(36).substring(7)}`
-  );
+  ), [cloudSize, userAddress]);
 
   useEffect(() => {
     setUserAddress(Math.floor(Math.random() * cloudSize));

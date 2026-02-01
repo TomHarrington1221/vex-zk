@@ -49,6 +49,34 @@ export default function Home() {
           </div>
         </div>
 
+
+        {/* How It Works */}
+        <div className="mt-20 max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
+          <div className="space-y-6">
+            <div className="flex items-start gap-6">
+              <div className="bg-purple-600 rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg flex-shrink-0">1</div>
+              <div className="bg-gray-800 p-5 rounded-lg flex-1">
+                <h3 className="text-lg font-bold mb-1">Create a Probability Cloud</h3>
+                <p className="text-gray-400">Generate 2-20 Solana addresses at once. You control one — nobody else knows which.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-6">
+              <div className="bg-purple-600 rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg flex-shrink-0">2</div>
+              <div className="bg-gray-800 p-5 rounded-lg flex-1">
+                <h3 className="text-lg font-bold mb-1">Hide in the Crowd</h3>
+                <p className="text-gray-400">Observers see the group of addresses but cannot determine which one belongs to you.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-6">
+              <div className="bg-purple-600 rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg flex-shrink-0">3</div>
+              <div className="bg-gray-800 p-5 rounded-lg flex-1">
+                <h3 className="text-lg font-bold mb-1">Transact Privately</h3>
+                <p className="text-gray-400">Ring signatures prove you are one of N without revealing which. Zero-knowledge proofs verify everything on-chain.</p>
+              </div>
+            </div>
+          </div>
+        </div>
         {/* Features */}
         <div className="grid md:grid-cols-3 gap-8 mt-20 max-w-5xl mx-auto">
           <div className="bg-gray-800 p-6 rounded-lg">
